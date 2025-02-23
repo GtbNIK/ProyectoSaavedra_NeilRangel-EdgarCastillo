@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario CV</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2/dist/Control.Geocoder.min.css">
+</head>
+<body>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.form-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2, h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    margin-top: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #495057;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    background-color: #dc3545;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.custom-file-upload:hover {
+    background-color: #c82333;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.address-container,
+.year-range {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.experience-entry,
+.language-entry,
+.competency-entry,
+.education-entry,
+.skill-entry {
+    position: relative;
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.progress-red {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.progress-container {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    position: absolute;
+    height: 100%;
+    background-color: #dc3545;
+    width: 0;
+    transition: width 0.2s;
+}
+
+.add-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.add-button:hover {
+    background-color: #5a6268;
+}
+
+.submit-button, .print-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+    transition: background-color 0.2s;
+    margin-bottom: 1rem;
+}
+
+.print-button {
+    background-color: #28a745;
+}
+
+.submit-button:hover {
+    background-color: #c82333;
+}
+
+.print-button:hover {
+    background-color: #218838;
+}
+
+.submit-group {
+    margin-top: 2rem;
+}
+
+#map {
+    height: 300px;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+}
+
+.location-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 1rem auto;
+    }
+
+    .form-container {
+        padding: 1rem;
+    }
+
+    .year-range {
+        grid-template-columns: 1fr;
+    }
+}
+
+.skill-rating {
+    display: flex;
+    gap: 8px;
+}
+
+.skill-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #dc3545;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.skill-dot.active {
+    background-color: #dc3545;
+}
+    </style>
+    <div class="container">
+        <form id="cvForm" class="form-container">
+            <h2>Formulario - Edgar Castillo - Neil Rangel</h2>
+            
+            <div class="form-group">
+                <label for="firstName">Nombre</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Apellido</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="profession">Profesión</label>
+                <input type="text" id="profession" name="profession" required>
+            </div>
+
+            <div class="form-group">
+                <label for="photo">Foto</label>
+                <label for="photo" class="custom-file-upload">
+                    Seleccionar Foto
+                </label>
+                <input type="file" id="photo" name="photo" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea id="description" name="description" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="website">Página Web</label>
+                <input type="url" id="website" name="website">
+            </div>
+
+            <h3>Dirección</h3>
+            <div class="address-container">
+                <div class="form-group">
+                    <label for="country">País</label>
+                    <input type="text" id="country" name="country">
+                </div>
+
+                <div class="form-group">
+                    <label for="state">Estado</label>
+                    <input type="text" id="state" name="state">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">Ciudad</label>
+                    <input type="text" id="city" name="city">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div id="map"></div>
+                <div id="location-info" class="location-info">Ciudad: -, Estado: -, País: -</div>
+            </div>
+
+            <h3>Experiencia Laboral</h3>
+            <div id="workExperience" class="experience-container">
+                <div class="experience-entry">
+                    <div class="year-range">
+                        <div class="form-group">
+                            <label>Desde</label>
+                            <input type="number" name="workStartYear[]" min="1950" max="2024">
+                        </div>
+                        <div class="form-group">
+                            <label>Hasta</label>
+                            <input type="number" name="workEndYear[]" min="1950" max="2024">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" name="workTitle[]">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea name="workDescription[]" rows="3"></textarea>
+                    </div>
+                    <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+                </div>
+            </div>
+            <button type="button" class="add-button" onclick="addWorkExperience()">+ Agregar Experiencia</button>
+
+            <h3>Idiomas</h3>
+            <div id="languages" class="languages-container">
+                <div class="language-entry">
+                    <div class="form-group">
+                        <label>Idioma</label>
+                        <input type="text" name="language[]">
+                    </div>
+                    <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+                </div>
+            </div>
+            <button type="button" class="add-button" onclick="addLanguage()">+ Agregar Idioma</button>
+
+            <h3>Competencias</h3>
+            <div id="competencies" class="competencies-container">
+                <div class="competency-entry">
+                    <div class="form-group">
+                        <label>Competencia</label>
+                        <input type="text" name="competency[]">
+                    </div>
+                    <div class="form-group">
+                        <label>Nivel</label>
+                        <div class="progress-container">
+                            <div class="progress-bar"></div>
+                            <input type="range" name="competencyLevel[]" min="0" max="100" class="progress-red" oninput="updateProgressBar(this)">
+                        </div>
+                    </div>
+                    <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+                </div>
+            </div>
+            <button type="button" class="add-button" onclick="addCompetency()">+ Agregar Competencia</button>
+
+            <!-- Nueva sección de Habilidades -->
+            <h3>Habilidades</h3>
+            <div id="skills" class="skills-container">
+                <div class="skill-entry">
+                    <div class="form-group">
+                        <label>Habilidad</label>
+                        <input type="text" name="skill[]">
+                    </div>
+                    <div class="form-group">
+                        <label>Nivel</label>
+                        <div class="skill-rating">
+                            <span class="skill-dot" data-rating="1"></span>
+                            <span class="skill-dot" data-rating="2"></span>
+                            <span class="skill-dot" data-rating="3"></span>
+                            <span class="skill-dot" data-rating="4"></span>
+                            <span class="skill-dot" data-rating="5"></span>
+                            <input type="hidden" name="skillLevel[]" value="0">
+                        </div>
+                    </div>
+                    <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+                </div>
+            </div>
+            <button type="button" class="add-button" onclick="addSkill()">+ Agregar Habilidad</button>
+
+            <h3>Formación Académica</h3>
+            <div id="education" class="education-container">
+                <div class="education-entry">
+                    <div class="year-range">
+                        <div class="form-group">
+                            <label>Desde</label>
+                            <input type="number" name="eduStartYear[]" min="1950" max="2024">
+                        </div>
+                        <div class="form-group">
+                            <label>Hasta</label>
+                            <input type="number" name="eduEndYear[]" min="1950" max="2024">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Universidad</label>
+                        <input type="text" name="university[]">
+                    </div>
+                    <div class="form-group">
+                        <label>Carrera</label>
+                        <input type="text" name="degree[]">
+                    </div>
+                    <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+                </div>
+            </div>
+            <button type="button" class="add-button" onclick="addEducation()">+ Agregar Formación</button>
+
+            <div class="form-group submit-group">
+                <button type="submit" class="submit-button">Guardar CV</button>
+                <button type="button" class="print-button" onclick="window.print()">Imprimir CV</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-control-geocoder@2/dist/Control.Geocoder.min.js"></script>
+    <script>
+        // Inicializar el mapa
+const map = L.map('map').setView([10.1619, -68.0019], 13); // Coordenadas de Carabobo, Venezuela
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Añadir buscador al mapa
+const geocoder = L.Control.geocoder({
+    defaultMarkGeocode: false
+}).on('markgeocode', function(e) {
+    const { center, properties } = e.geocode;
+    map.setView(center, 13);
+    
+    // Actualizar los campos de dirección
+    document.getElementById('city').value = properties.city || '';
+    document.getElementById('state').value = properties.state || '';
+    document.getElementById('country').value = properties.country || '';
+    
+    // Actualizar información de ubicación
+    const locationInfo = document.getElementById('location-info');
+    const city = properties.city || '-';
+    const state = properties.state || '-';
+    const country = properties.country || '-';
+    locationInfo.textContent = `Ciudad: ${city}, Estado: ${state}, País: ${country}`;
+}).addTo(map);
+
+// Función para eliminar entradas
+function deleteEntry(button) {
+    button.closest('.language-entry, .competency-entry, .education-entry, .experience-entry, .skill-entry').remove();
+}
+
+// Función para actualizar la barra de progreso
+function updateProgressBar(input) {
+    const progressBar = input.parentElement.querySelector('.progress-bar');
+    progressBar.style.width = input.value + '%';
+}
+
+// Función para agregar experiencia laboral
+function addWorkExperience() {
+    const container = document.getElementById('workExperience');
+    const entry = document.createElement('div');
+    entry.className = 'experience-entry';
+    entry.innerHTML = `
+        <div class="year-range">
+            <div class="form-group">
+                <label>Desde</label>
+                <input type="number" name="workStartYear[]" min="1950" max="2024">
+            </div>
+            <div class="form-group">
+                <label>Hasta</label>
+                <input type="number" name="workEndYear[]" min="1950" max="2024">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Título</label>
+            <input type="text" name="workTitle[]">
+        </div>
+        <div class="form-group">
+            <label>Descripción</label>
+            <textarea name="workDescription[]" rows="3"></textarea>
+        </div>
+        <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+    `;
+    container.appendChild(entry);
+}
+
+// Función para agregar idiomas
+function addLanguage() {
+    const container = document.getElementById('languages');
+    const entry = document.createElement('div');
+    entry.className = 'language-entry';
+    entry.innerHTML = `
+        <div class="form-group">
+            <label>Idioma</label>
+            <input type="text" name="language[]">
+        </div>
+        <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+    `;
+    container.appendChild(entry);
+}
+
+// Función para agregar competencias
+function addCompetency() {
+    const container = document.getElementById('competencies');
+    const entry = document.createElement('div');
+    entry.className = 'competency-entry';
+    entry.innerHTML = `
+        <div class="form-group">
+            <label>Competencia</label>
+            <input type="text" name="competency[]">
+        </div>
+        <div class="form-group">
+            <label>Nivel</label>
+            <div class="progress-container">
+                <div class="progress-bar"></div>
+                <input type="range" name="competencyLevel[]" min="0" max="100" class="progress-red" oninput="updateProgressBar(this)">
+            </div>
+        </div>
+        <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+    `;
+    container.appendChild(entry);
+}
+
+// Función para agregar formación académica
+function addEducation() {
+    const container = document.getElementById('education');
+    const entry = document.createElement('div');
+    entry.className = 'education-entry';
+    entry.innerHTML = `
+        <div class="year-range">
+            <div class="form-group">
+                <label>Desde</label>
+                <input type="number" name="eduStartYear[]" min="1950" max="2024">
+            </div>
+            <div class="form-group">
+                <label>Hasta</label>
+                <input type="number" name="eduEndYear[]" min="1950" max="2024">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Universidad</label>
+            <input type="text" name="university[]">
+        </div>
+        <div class="form-group">
+            <label>Carrera</label>
+            <input type="text" name="degree[]">
+        </div>
+        <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+    `;
+    container.appendChild(entry);
+}
+
+// Función para agregar habilidades
+function addSkill() {
+    const container = document.getElementById('skills');
+    const entry = document.createElement('div');
+    entry.className = 'skill-entry';
+    entry.innerHTML = `
+        <div class="form-group">
+            <label>Habilidad</label>
+            <input type="text" name="skill[]">
+        </div>
+        <div class="form-group">
+            <label>Nivel</label>
+            <div class="skill-rating">
+                <span class="skill-dot" data-rating="1"></span>
+                <span class="skill-dot" data-rating="2"></span>
+                <span class="skill-dot" data-rating="3"></span>
+                <span class="skill-dot" data-rating="4"></span>
+                <span class="skill-dot" data-rating="5"></span>
+                <input type="hidden" name="skillLevel[]" value="0">
+            </div>
+        </div>
+        <button type="button" class="delete-button" onclick="deleteEntry(this)">×</button>
+    `;
+    container.appendChild(entry);
+    initializeSkillDots(entry);
+}
+
+// Función para inicializar los puntos de habilidad
+function initializeSkillDots(container) {
+    const dots = container.querySelectorAll('.skill-dot');
+    const hiddenInput = container.querySelector('input[type="hidden"]');
+    
+    dots.forEach(dot => {
+        dot.addEventListener('click', function() {
+            const rating = this.dataset.rating;
+            hiddenInput.value = rating;
+            
+            dots.forEach(d => {
+                if (d.dataset.rating <= rating) {
+                    d.classList.add('active');
+                } else {
+                    d.classList.remove('active');
+                }
+            });
+        });
+    });
+}
+
+// Inicializar los puntos de habilidad existentes
+document.addEventListener('DOMContentLoaded', function() {
+    const skillEntries = document.querySelectorAll('.skill-entry');
+    skillEntries.forEach(entry => initializeSkillDots(entry));
+});
+
+// Manejar el envío del formulario
+document.getElementById('cvForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Formulario enviado');
+});
+    </script>
+</body>
+</html>
