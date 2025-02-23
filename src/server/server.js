@@ -130,7 +130,6 @@ app.post('/api/login', async (req, res) => {
 
 // Ruta para guardar el formulario CV
 app.post('/api/cv', (req, res) => {
-<<<<<<< HEAD
     const {
         userId,
         photo,
@@ -265,30 +264,6 @@ app.post('/api/cv', (req, res) => {
                 message: 'CV guardado exitosamente',
                 profileId: profileId 
             });
-=======
-    const { 
-        userId,
-        firstName,
-        lastName,
-        profession,
-        // ... resto de los datos del formulario
-    } = req.body;
-
-    // Primero insertar el perfil básico
-    connection.query(
-        'INSERT INTO profiles (user_id, first_name, last_name, profession) VALUES (?, ?, ?, ?)',
-        [userId, firstName, lastName, profession],
-        (error, results) => {
-            if (error) {
-                res.status(500).json({ error: 'Error al guardar el CV' });
-                return;
-            }
-            
-            const profileId = results.insertId;
-            // Aquí continuarías con la inserción del resto de los datos en sus respectivas tablas
-            
-            res.json({ message: 'CV guardado exitosamente' });
->>>>>>> 8aaf4dc4e4e51d1cf25ffd4b1e4c9c7c656f08f0
         }
     );
 });
