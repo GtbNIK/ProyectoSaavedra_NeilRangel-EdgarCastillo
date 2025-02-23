@@ -48,10 +48,10 @@ const Footer = () => {
             <div className="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style={{ borderColor: '#3E3E4E !important' }}>
                 <div className="row">
                     <div className="col-lg-6 text-center text-md-left mb-3 mb-md-0">
-                        <p className="m-0 text-white">&copy; <a href="">Import Services C.A. </a>. All Rights Reserved. 
-                            <br />
+                        <p className="m-0 text-white">&copy; <a href="">Import Services C.A. </a>. All Rights Reserved.</p>
+                        <div>
                             <p>Designed by Neil Rangel - Edgar Castillo</p>
-                        </p>
+                        </div>
                     </div>
                     <div className="col-lg-6 text-center text-md-right">
                         <ul className="nav d-inline-flex">
