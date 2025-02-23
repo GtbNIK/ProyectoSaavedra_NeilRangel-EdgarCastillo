@@ -19,6 +19,22 @@ const Form = () => {
     // Referencia para el mapa
     const mapRef = React.useRef(null);
 
+    // Estado para los colores y tamaños de fuente
+    const [primaryColor, setPrimaryColor] = useState('#FFFFFF');
+    const [secondaryColor, setSecondaryColor] = useState('#1F3142');
+    const [accentColor, setAccentColor] = useState('#000000');
+    const [additionalColor1, setAdditionalColor1] = useState('#000000'); // Color adicional 1
+    const [additionalColor2, setAdditionalColor2] = useState('#000000'); // Color adicional 2
+    const [fontSizeParagraph, setFontSizeParagraph] = useState(16);
+    const [fontSizeTitle, setFontSizeTitle] = useState(24);
+    const [fontSizeSubtitle, setFontSizeSubtitle] = useState(20);
+    const [primaryFont, setPrimaryFont] = useState(null);
+    const [secondaryFont, setSecondaryFont] = useState(null);
+    
+    // Estado para las paletas
+    const [palettes, setPalettes] = useState([]);
+    const [currentPalette, setCurrentPalette] = useState(null);
+
     const addWorkExperience = () => {
         setWorkExperience([...workExperience, { startYear: '', endYear: '', title: '', description: '' }]);
     };
@@ -668,6 +684,46 @@ const Form = () => {
         };
     }, [photoUrl]);
 
+    useEffect(() => {
+        // Desplazar la vista a la parte superior al cargar el componente
+        window.scrollTo(0, 0);
+    }, []); // El array vacío asegura que esto se ejecute solo una vez al montar el componente
+
+    const handleSavePalette = () => {
+        const newPalette = {
+            primaryColor,
+            secondaryColor,
+            accentColor,
+            additionalColor1,
+            additionalColor2,
+            fontSizeParagraph,
+            fontSizeTitle,
+            fontSizeSubtitle,
+            primaryFont,
+            secondaryFont,
+        };
+        setPalettes([...palettes, newPalette]);
+        // Resetear los campos después de guardar
+        resetFields();
+    };
+
+    const resetFields = () => {
+        setPrimaryColor('#FFFFFF');
+        setSecondaryColor('#1F3142');
+        setAccentColor('#000000');
+        setAdditionalColor1('#000000'); // Resetear color adicional 1
+        setAdditionalColor2('#000000'); // Resetear color adicional 2
+        setFontSizeParagraph(16);
+        setFontSizeTitle(24);
+        setFontSizeSubtitle(20);
+        setPrimaryFont(null);
+        setSecondaryFont(null);
+    };
+
+    const handleChangeBackgroundColor = () => {
+        document.body.style.backgroundColor = primaryColor; // Cambiar el color de fondo al color primario
+    };
+
     return (
         <div>
             <div className="jumbotron jumbotron-fluid mb-5">
@@ -946,22 +1002,119 @@ const Form = () => {
                     )}
                     {isSettingsActive && (
                         <div style={{ padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px', boxShadow: '0 2px 5px rgba(0,0,0,0.1)' }}>
-                            <h3>Cambiar Colores de la Página</h3>
+                            <h3>Personalización</h3>
                             <div>
-                                <label htmlFor="backgroundColor">Color de Fondo:</label>
-                                <input 
-                                    type="color" 
-                                    id="backgroundColor" 
-                                    onChange={(e) => document.body.style.backgroundColor = e.target.value} 
-                                />
+                                <label>Color Primario:</label>
+                                <input type="color" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} />
                             </div>
                             <div>
-                                <label htmlFor="textColor">Color del Texto:</label>
-                                <input 
-                                    type="color" 
-                                    id="textColor" 
-                                    onChange={(e) => document.body.style.color = e.target.value} 
-                                />
+                                <label>Color Secundario:</label>
+                                <input type="color" value={secondaryColor} onChange={(e) => setSecondaryColor(e.target.value)} />
+                            </div>
+                            <div>
+                                <label>Color de Acento:</label>
+                                <input type="color" value={accentColor} onChange={(e) => setAccentColor(e.target.value)} />
+                            </div>
+                            <div>
+                                <label>Color Adicional 1:</label>
+                                <input type="color" value={additionalColor1} onChange={(e) => setAdditionalColor1(e.target.value)} />
+                            </div>
+                            <div>
+                                <label>Color Adicional 2:</label>
+                                <input type="color" value={additionalColor2} onChange={(e) => setAdditionalColor2(e.target.value)} />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label>Tamaño de Fuente (Párrafos):</label>
+                                <input type="number" value={fontSizeParagraph} onChange={(e) => setFontSizeParagraph(e.target.value)} />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label>Tamaño de Fuente (Títulos):</label>
+                                <input type="number" value={fontSizeTitle} onChange={(e) => setFontSizeTitle(e.target.value)} />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label>Tamaño de Fuente (Subtítulos):</label>
+                                <input type="number" value={fontSizeSubtitle} onChange={(e) => setFontSizeSubtitle(e.target.value)} />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label>Cargar Tipografía Principal:</label>
+                                <input type="file" onChange={(e) => setPrimaryFont(e.target.files[0])} />
+                                <button 
+                                    onClick={(e) => { 
+                                        e.preventDefault(); 
+                                        document.querySelector('input[type="file"]').click(); 
+                                    }} 
+                                    style={{ 
+                                        marginLeft: '10px', 
+                                        backgroundColor: '#fd3a2d', 
+                                        color: 'white', 
+                                        border: 'none', 
+                                        padding: '10px 15px', 
+                                        borderRadius: '5px', 
+                                        cursor: 'pointer' 
+                                    }}
+                                >
+                                    Subir Archivo
+                                </button>
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label>Cargar Tipografía Secundaria:</label>
+                                <input type="file" onChange={(e) => setSecondaryFont(e.target.files[0])} />
+                                <button 
+                                    onClick={(e) => { 
+                                        e.preventDefault(); 
+                                        document.querySelector('input[type="file"]').click(); 
+                                    }} 
+                                    style={{ 
+                                        marginLeft: '10px', 
+                                        backgroundColor: '#fd3a2d', 
+                                        color: 'white', 
+                                        border: 'none', 
+                                        padding: '10px 15px', 
+                                        borderRadius: '5px', 
+                                        cursor: 'pointer' 
+                                    }}
+                                >
+                                    Subir Archivo
+                                </button>
+                            </div>
+                            <button onClick={handleSavePalette} style={{ 
+                                marginTop: '10px', 
+                                backgroundColor: '#fd3a2d', 
+                                color: 'white', 
+                                border: 'none', 
+                                padding: '10px 15px', 
+                                borderRadius: '5px', 
+                                cursor: 'pointer' 
+                            }}>
+                                Guardar Paleta
+                            </button>
+                            <button onClick={handleChangeBackgroundColor} style={{ 
+                                marginTop: '10px', 
+                                backgroundColor: '#28a745', // Color verde para el botón
+                                color: 'white', 
+                                border: 'none', 
+                                padding: '10px 15px', 
+                                borderRadius: '5px', 
+                                cursor: 'pointer' 
+                            }}>
+                                Hacer Cambios
+                            </button>
+                            <div style={{ marginTop: '20px', textAlign: 'center' }}>
+                                <h4 style={{ marginBottom: '10px' }}>Vista Previa</h4>
+                                <div style={{
+                                    border: '1px solid #ccc',
+                                    borderRadius: '8px',
+                                    boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+                                    padding: '20px',
+                                    backgroundColor: '#fff',
+                                    transition: 'all 0.3s ease'
+                                }}>
+                                    <div style={{ color: primaryColor, fontSize: `${fontSizeTitle}px` }}>Título de Ejemplo</div>
+                                    <div style={{ color: secondaryColor, fontSize: `${fontSizeSubtitle}px` }}>Subtítulo de Ejemplo</div>
+                                    <p style={{ color: accentColor, fontSize: `${fontSizeParagraph}px` }}>Este es un párrafo de ejemplo con el tamaño de fuente y color seleccionados.</p>
+                                    <p style={{ color: additionalColor1 }}>Texto con Color Adicional 1</p>
+                                    <p style={{ color: additionalColor2 }}>Texto con Color Adicional 2</p>
+                                </div>
                             </div>
                         </div>
                     )}
