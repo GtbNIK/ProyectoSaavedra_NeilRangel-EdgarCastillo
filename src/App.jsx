@@ -10,7 +10,7 @@ import PricesPage from './pages/PricesPage';
 import ContactPage from './pages/ContactPage';
 import BlogPage from './pages/BlogPage';
 import Footer from './components/common/footer';
-import Form from './pages/Form';
+import Admin from './pages/Admin';
 import BackToTop from './components/common/backtoTop';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -34,10 +34,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route 
-            path="/form" 
+            path="/admin" 
             element={
               <ProtectedRoute>
-                <Form />
+                <Admin />
               </ProtectedRoute>
             } 
           />

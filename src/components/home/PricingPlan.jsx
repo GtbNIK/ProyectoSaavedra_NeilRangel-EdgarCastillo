@@ -10,7 +10,7 @@ const PricingPlan = () => {
                 </div>
                 <div className="row">
                     <div className="col-md-4 mb-5">
-                        <div className="bg-secondary">
+                        <div className="custom-bg2">
                             <div className="text-center p-4">
                                 <h1 className="display-4 mb-0">
                                     <small className="align-top text-muted font-weight-medium" style={{ fontSize: '22px', lineHeight: '45px' }}>$</small>49<small className="align-bottom text-muted font-weight-medium" style={{ fontSize: '16px', lineHeight: '40px' }}>/Mo</small>
@@ -29,7 +29,7 @@ const PricingPlan = () => {
                         </div>
                     </div>
                     <div className="col-md-4 mb-5">
-                        <div className="bg-secondary">
+                        <div className="custom-bg2">
                             <div className="text-center p-4">
                                 <h1 className="display-4 mb-0">
                                     <small className="align-top text-muted font-weight-medium" style={{ fontSize: '22px', lineHeight: '45px' }}>$</small>99<small className="align-bottom text-muted font-weight-medium" style={{ fontSize: '16px', lineHeight: '40px' }}>/Mo</small>
@@ -48,7 +48,7 @@ const PricingPlan = () => {
                         </div>
                     </div>
                     <div className="col-md-4 mb-5">
-                        <div className="bg-secondary">
+                        <div className="custom-bg2">
                             <div className="text-center p-4">
                                 <h1 className="display-4 mb-0">
                                     <small className="align-top text-muted font-weight-medium" style={{ fontSize: '22px', lineHeight: '45px' }}>$</small>149<small className="align-bottom text-muted font-weight-medium" style={{ fontSize: '16px', lineHeight: '40px' }}>/Mo</small>

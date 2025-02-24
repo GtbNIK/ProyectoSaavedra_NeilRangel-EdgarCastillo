@@ -3,7 +3,7 @@ import featureimg from '../../assets/img/feature.jpg'
 
 const Features = () => {
     return (
-        <div className="container-fluid bg-secondary my-5">
+        <div className="container-fluid custom-bg2 my-5">
             <div className="container">
                 <div className="row align-items-center">
                     <div className="col-lg-5">

@@ -4,6 +4,9 @@ import 'leaflet/dist/leaflet.css'; // Importa los estilos de Leaflet
 import 'leaflet-control-geocoder'; // Importa la biblioteca de geocodificación
 import 'leaflet-control-geocoder/dist/Control.Geocoder.css'; // Importa los estilos de geocodificación
 import '../assets/css/formStyles.css'
+import TopBar from '../components/layout/TopBar';
+import Footer from '../components/common/Footer';
+import Navbar from '../components/layout/Navbar';
 
 
 const Form = () => {
@@ -20,19 +23,28 @@ const Form = () => {
     const mapRef = React.useRef(null);
 
     // Estado para los colores y tamaños de fuente
-    const [primaryColor, setPrimaryColor] = useState('#FFFFFF');
-    const [secondaryColor, setSecondaryColor] = useState('#1F3142');
-    const [accentColor, setAccentColor] = useState('#000000');
+    const [primaryColor, setPrimaryColor] = useState('#FFFFFF'); // Color primario por defecto
+    const [secondaryColor, setSecondaryColor] = useState('#1F3142'); // Color secundario por defecto
+    const [originalSecondaryColor, setOriginalSecondaryColor] = useState('#1F3142'); // Guardar color secundario original
+    const [accentColor, setAccentColor] = useState('#FF4800');
     const [additionalColor1, setAdditionalColor1] = useState('#000000'); // Color adicional 1
-    const [additionalColor2, setAdditionalColor2] = useState('#000000'); // Color adicional 2
+    const [additionalColor2, setAdditionalColor2] = useState('#E8E6E6'); // Color adicional 2
     const [fontSizeParagraph, setFontSizeParagraph] = useState(16);
     const [fontSizeTitle, setFontSizeTitle] = useState(24);
     const [fontSizeSubtitle, setFontSizeSubtitle] = useState(20);
     const [primaryFont, setPrimaryFont] = useState(null);
     const [secondaryFont, setSecondaryFont] = useState(null);
     
-    // Estado para las paletas
-    const [palettes, setPalettes] = useState([]);
+    // Estado para las paletas, inicializando con una paleta específica
+    const [palettes, setPalettes] = useState([
+        {
+            primaryColor: '#FFFFFF',
+            secondaryColor: '#1F3142',
+            accentColor: '#FF4800',
+            additionalColor1: '#000000',
+            additionalColor2: '#E8E6E6',
+        }
+    ]);
     const [currentPalette, setCurrentPalette] = useState(null);
 
     const addWorkExperience = () => {
@@ -696,20 +708,14 @@ const Form = () => {
             accentColor,
             additionalColor1,
             additionalColor2,
-            fontSizeParagraph,
-            fontSizeTitle,
-            fontSizeSubtitle,
-            primaryFont,
-            secondaryFont,
         };
-        setPalettes([...palettes, newPalette]);
-        // Resetear los campos después de guardar
+        setPalettes([...palettes, newPalette]); // Agregar nueva paleta a la lista
         resetFields();
     };
 
     const resetFields = () => {
-        setPrimaryColor('#FFFFFF');
-        setSecondaryColor('#1F3142');
+        setPrimaryColor('#FFFFFF'); // Resetear a color primario por defecto
+        setSecondaryColor('#1F3142'); // Resetear a color secundario por defecto
         setAccentColor('#000000');
         setAdditionalColor1('#000000'); // Resetear color adicional 1
         setAdditionalColor2('#000000'); // Resetear color adicional 2
@@ -722,15 +728,24 @@ const Form = () => {
 
     const handleChangeBackgroundColor = () => {
         document.body.style.backgroundColor = primaryColor; // Cambiar el color de fondo al color primario
+        // Cambiar el color de fondo del TopBar y Footer solo si se hace clic en el botón
+        document.querySelector('.top-bar').style.backgroundColor = secondaryColor;
+        document.querySelector('.footer').style.backgroundColor = secondaryColor;
+
+        // Cambiar el color de fondo de los componentes que usan la clase custom-bg2
+        const customBgElements = document.querySelectorAll('.custom-bg2');
+        customBgElements.forEach(element => {
+            element.style.backgroundColor = additionalColor2; // Aplicar el color secundario 2
+        });
     };
 
     return (
-        <div>
+        <>
             <div className="jumbotron jumbotron-fluid mb-5">
                 <div className="container text-center py-5">
-                <h1 className="text-white display-3">Admin Area</h1>
+                    <h1 className="text-white display-3">Admin Area</h1>
+                </div>
             </div>
-        </div>
             <div className="container" style={{ display: 'flex', alignItems: 'flex-start' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', marginRight: '20px' }}>
                     <button 
@@ -754,7 +769,7 @@ const Form = () => {
                         className="sidebar" 
                         style={{ 
                             width: '250px', 
-                            backgroundColor: 'white', 
+                            backgroundColor: isSettingsActive ? '#fd3a2d' : 'white', // Cambiar color si está activo
                             padding: '15px', 
                             borderRadius: '8px', 
                             boxShadow: '0 2px 5px rgba(0,0,0,0.1)', 
@@ -1077,28 +1092,28 @@ const Form = () => {
                                     Subir Archivo
                                 </button>
                             </div>
-                            <button onClick={handleSavePalette} style={{ 
-                                marginTop: '10px', 
-                                backgroundColor: '#fd3a2d', 
-                                color: 'white', 
-                                border: 'none', 
-                                padding: '10px 15px', 
-                                borderRadius: '5px', 
-                                cursor: 'pointer' 
-                            }}>
-                                Guardar Paleta
-                            </button>
-                            <button onClick={handleChangeBackgroundColor} style={{ 
-                                marginTop: '10px', 
-                                backgroundColor: '#28a745', // Color verde para el botón
-                                color: 'white', 
-                                border: 'none', 
-                                padding: '10px 15px', 
-                                borderRadius: '5px', 
-                                cursor: 'pointer' 
-                            }}>
-                                Hacer Cambios
-                            </button>
+                            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
+                                <button onClick={handleSavePalette} style={{ 
+                                    backgroundColor: '#fd3a2d', 
+                                    color: 'white', 
+                                    border: 'none', 
+                                    padding: '10px 15px', 
+                                    borderRadius: '5px', 
+                                    cursor: 'pointer' 
+                                }}>
+                                    Guardar Paleta
+                                </button>
+                                <button onClick={handleChangeBackgroundColor} style={{ 
+                                    backgroundColor: '#28a745', 
+                                    color: 'white', 
+                                    border: 'none', 
+                                    padding: '10px 15px', 
+                                    borderRadius: '5px', 
+                                    cursor: 'pointer' 
+                                }}>
+                                    Hacer Cambios
+                                </button>
+                            </div>
                             <div style={{ marginTop: '20px', textAlign: 'center' }}>
                                 <h4 style={{ marginBottom: '10px' }}>Vista Previa</h4>
                                 <div style={{
@@ -1116,11 +1131,24 @@ const Form = () => {
                                     <p style={{ color: additionalColor2 }}>Texto con Color Adicional 2</p>
                                 </div>
                             </div>
+                            <div style={{ marginTop: '20px' }}>
+                                <h4>Paletas de Colores</h4>
+                                {palettes.map((palette, index) => (
+                                    <div key={index} style={{ marginBottom: '10px' }}>
+                                        <span>Paleta {index + 1}:</span>
+                                        <input type="color" value={palette.primaryColor} readOnly style={{ marginLeft: '10px', marginRight: '5px' }} />
+                                        <input type="color" value={palette.secondaryColor} readOnly style={{ marginRight: '5px' }} />
+                                        <input type="color" value={palette.accentColor} readOnly style={{ marginRight: '5px' }} />
+                                        <input type="color" value={palette.additionalColor1} readOnly style={{ marginRight: '5px' }} />
+                                        <input type="color" value={palette.additionalColor2} readOnly style={{ marginRight: '5px' }} />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

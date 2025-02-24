@@ -1825,6 +1825,10 @@ pre code {
   }
 }
 
+.custom-bg2{
+    background-color: #e8e6e6;
+}
+
 @media (max-width: 767.98px) {
   .table-responsive-md {
     display: block;

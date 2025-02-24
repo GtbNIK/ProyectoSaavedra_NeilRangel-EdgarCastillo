@@ -25,7 +25,7 @@ const Login = () => {
             if (response.ok) {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('userId', data.userId);
-                navigate('/form');
+                navigate('/admin');
             } else {
                 alert(data.error);
             }

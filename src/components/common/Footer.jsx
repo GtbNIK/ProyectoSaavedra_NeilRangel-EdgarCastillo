@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({ secondaryColor }) => {
     return (
         <>
-            <div className="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
+            <div className="container-fluid footer" style={{ backgroundColor: secondaryColor || '#1F3142', color: 'white', marginTop: '5rem', padding: '5rem 0' }}>
                 <div className="row pt-5">
                     <div className="col-lg-7 col-md-6">
                         <div className="row">
@@ -45,7 +45,7 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-            <div className="container-fluid bg-dark text-white border-top py-4 px-sm-3 px-md-5" style={{ borderColor: '#3E3E4E !important' }}>
+            {/* <div className="container-fluid footer" style={{ backgroundColor: secondaryColor || '#1F3142', color: 'white', borderTop: '1px solid #3E3E4E', padding: '20px 0' }}>
                 <div className="row">
                     <div className="col-lg-6 text-center text-md-left mb-3 mb-md-0">
                         <p className="m-0 text-white">&copy; <a href="">Import Services C.A. </a>. All Rights Reserved.</p>
@@ -70,7 +70,7 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 };

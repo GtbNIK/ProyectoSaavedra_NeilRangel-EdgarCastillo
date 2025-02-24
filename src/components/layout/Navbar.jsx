@@ -15,7 +15,7 @@ const Navbar = () => {
                 </button>
                 <div className="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                     <div className="navbar-nav m-auto py-0">
-                        <Link to="/" className={`nav-item nav-link ${location.pathname === '/' ? 'active' : ''}`}>Home</Link>
+                        <Link to="/" className={`nav-item nav-link ${location.pathname === '/home.html' ? 'active' : ''}`}>Home</Link>
                         <Link to="/about.html" className={`nav-item nav-link ${location.pathname === '/about.html' ? 'active' : ''}`}>About</Link>
                         <Link to="/service.html" className={`nav-item nav-link ${location.pathname === '/service.html' ? 'active' : ''}`}>Service</Link>
                         <Link to="/prices.html" className={`nav-item nav-link ${location.pathname === '/prices.html' ? 'active' : ''}`}>Prices</Link>
