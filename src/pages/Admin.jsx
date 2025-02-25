@@ -739,11 +739,56 @@ const Form = () => {
         });
     };
 
+    const handleChangeFontSizeTitle = (size) => {
+        setFontSizeTitle(size);
+        
+        // Cambiar el tamaño de fuente de los títulos de sección
+        document.querySelectorAll('.section-title').forEach(title => {
+            title.style.fontSize = `${size}px`;
+        });
+        
+        // Cambiar el tamaño de fuente del título principal
+        const mainTitle = document.querySelector('.name');
+        if (mainTitle) {
+            mainTitle.style.fontSize = `${size}px`;
+        }
+        
+        // Cambiar el tamaño de fuente de los títulos del pie de página
+        document.querySelectorAll('.footer-title').forEach(title => {
+            title.style.fontSize = `${size}px`;
+        });
+        
+        // Cambiar el tamaño de fuente de otros títulos relevantes
+        document.querySelectorAll('h2, h3, h4').forEach(title => {
+            title.style.fontSize = `${size}px`;
+        });
+
+        // Cambiar el tamaño de fuente de "Faster" y "Admin Area"
+        const fasterTitle = document.querySelector('.faster-title');
+        if (fasterTitle) {
+            fasterTitle.style.fontSize = `${size}px`;
+        }
+
+        const adminAreaTitle = document.querySelector('.admin-area-title');
+        if (adminAreaTitle) {
+            adminAreaTitle.style.fontSize = `${size}px`;
+        }
+    };
+
+    const handleChangeFontSizeParagraph = (size) => {
+        setFontSizeParagraph(size);
+        
+        // Cambiar el tamaño de fuente de todos los textos seleccionados, excluyendo títulos grandes
+        document.querySelectorAll('p, .form-group input, .form-group textarea, .form-group label, .top-bar small, .navbar-nav .nav-link, .btn, .preview-title, .preview-subtitle, div').forEach(text => {
+            text.style.fontSize = `${size}px`;
+        });
+    };
+
     return (
         <>
             <div className="jumbotron jumbotron-fluid mb-5">
                 <div className="container text-center py-5">
-                    <h1 className="text-white display-3">Admin Area</h1>
+                    <h1 className="text-white display-3 admin-area-title">Admin Area</h1>
                 </div>
             </div>
             <div className="container" style={{ display: 'flex', alignItems: 'flex-start' }}>
@@ -1040,11 +1085,15 @@ const Form = () => {
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <label>Tamaño de Fuente (Párrafos):</label>
-                                <input type="number" value={fontSizeParagraph} onChange={(e) => setFontSizeParagraph(e.target.value)} />
+                                <input 
+                                    type="number" 
+                                    value={fontSizeParagraph} 
+                                    onChange={(e) => handleChangeFontSizeParagraph(e.target.value)} 
+                                />
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <label>Tamaño de Fuente (Títulos):</label>
-                                <input type="number" value={fontSizeTitle} onChange={(e) => setFontSizeTitle(e.target.value)} />
+                                <input type="number" value={fontSizeTitle} onChange={(e) => handleChangeFontSizeTitle(e.target.value)} />
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <label>Tamaño de Fuente (Subtítulos):</label>
@@ -1124,8 +1173,8 @@ const Form = () => {
                                     backgroundColor: '#fff',
                                     transition: 'all 0.3s ease'
                                 }}>
-                                    <div style={{ color: primaryColor, fontSize: `${fontSizeTitle}px` }}>Título de Ejemplo</div>
-                                    <div style={{ color: secondaryColor, fontSize: `${fontSizeSubtitle}px` }}>Subtítulo de Ejemplo</div>
+                                    <div style={{ color: primaryColor, fontSize: `${fontSizeTitle}px` }} className="preview-title">Título de Ejemplo</div>
+                                    <div style={{ color: secondaryColor, fontSize: `${fontSizeSubtitle}px` }} className="preview-subtitle">Subtítulo de Ejemplo</div>
                                     <p style={{ color: accentColor, fontSize: `${fontSizeParagraph}px` }}>Este es un párrafo de ejemplo con el tamaño de fuente y color seleccionados.</p>
                                     <p style={{ color: additionalColor1 }}>Texto con Color Adicional 1</p>
                                     <p style={{ color: additionalColor2 }}>Texto con Color Adicional 2</p>
