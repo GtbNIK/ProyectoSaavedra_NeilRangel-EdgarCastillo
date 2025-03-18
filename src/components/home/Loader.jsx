@@ -13,6 +13,7 @@ const Loader = () => {
             <div className="square"></div>
             <div className="parallelogram"></div>
         </div>
+        <p className="loading-text">Espere un momento, cargando algunas cosas...</p>
     </div>
     );
 };

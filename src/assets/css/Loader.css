@@ -11,7 +11,7 @@
     width: 300px;
     height: 300px;
     left: 50px;
-    animation: moveFigures 5s forwards 1s;
+    animation: moveFigures 10s forwards 1s;
 }
 
 
@@ -29,7 +29,7 @@
     top: 150px;
     left: -64px;
     transform: rotate(180deg);
-    animation: moveTriangle1 5s forwards 1s;
+    animation: moveTriangle1 10s forwards 1s;
 }
 
 .triangle-2 {
@@ -43,7 +43,7 @@
     top: 200px;
     left: 168px;
     transform: rotate(180deg);
-    animation: moveTriangle2 5s forwards 1s;
+    animation: moveTriangle2 10s forwards 1s;
 }
 
 .triangle-3 {
@@ -54,7 +54,7 @@
     top: 150px;
     left: -23px;
     transform: rotate(225deg);
-    animation: moveTriangle3 5s forwards 1s;
+    animation: moveTriangle3 10s forwards 1s;
 }
 
 .triangle-4 {
@@ -65,7 +65,7 @@
     top: 150px;
     left: -23px;
     transform: rotate(135deg);
-    animation: moveTriangle4 5s forwards 1s;
+    animation: moveTriangle4 10s forwards 1s;
 }
 
 .triangle-5 {
@@ -76,7 +76,7 @@
     top: 250px;
     left: 6px;
     transform: rotate(180deg);
-    animation: moveTriangle5 5s forwards 1s;
+    animation: moveTriangle5 10s forwards 1s;
 }
 
 .square {
@@ -84,10 +84,10 @@
     height: 71px;
     background-color: #22AB24;
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    top: 164.5px;
-    left: -99px;
+    top: 164.1px;
+    left: -99.5px;
     transform: rotate(45deg);
-    animation: moveSquare 5s forwards 1s;
+    animation: moveSquare 10s forwards 1s;
 }
 
 .parallelogram {
@@ -98,42 +98,49 @@
     top: 50px;
     left: 119px;
     transform: scaleX(-1);
-    animation: moveParallelogram 5s forwards 1s;
+    animation: moveParallelogram 10s forwards 1s;
 }
 
 @keyframes moveTriangle1 {
     0% { transform: translateX(0) translateY(0) rotate(180deg) ; }
-    100% { transform: translateX(50px) translateY(-30px) rotate(90deg) ; }
+    50% { transform: translateX(50px) translateY(-30px) rotate(90deg) ; }
 }
 
 @keyframes moveTriangle2 {
     0% { transform: translateX(0) translateY(0) rotate(180deg); }
-    100% { transform: translateX(-247px) translateY(83px) rotate(180deg); }
+    50% { transform: translateX(-247px) translateY(83px) rotate(180deg); }
 }
 
 @keyframes moveTriangle3 {
     0% { transform: translateX(0) translateY(0) rotate(225deg); }
-    100% { transform: translateX(-1px) translateY(-150px) rotate(315deg); }
+    50% { transform: translateX(-1px) translateY(-150px) rotate(315deg); }
 }
 
 @keyframes moveTriangle4 {
     0% { transform: translateX(0) translateY(0) rotate(135deg); }
-    100% { transform: translateX(-1px) translateY(-150px) rotate(45deg); }
+    50% { transform: translateX(-1px) translateY(-150px) rotate(45deg); }
 }
 
 @keyframes moveTriangle5 {
     0% { transform: translateX(0) translateY(0) rotate(180deg); }
-    100% { transform: translateX(-55px) translateY(-37px) rotate(135deg); }
+    50% { transform: translateX(-55px) translateY(-37px) rotate(135deg); }
 }
 
 @keyframes moveSquare {
     0% { transform: translateX(0) translateY(0) rotate(45deg); }
-    100% { transform: translateX(233px) translateY(100px) rotate(45deg); }
+    50% { transform: translateX(233px) translateY(100px) rotate(45deg); }
 }
 
 @keyframes moveParallelogram {
     0% { transform: translateX(0) translateY(0) scaleX(-1); }
-    100% { transform: translateX(0px) translateY(99px) rotate(90deg) scaleX(-1); }
+    50% { transform: translateX(0px) translateY(99px) rotate(90deg) scaleX(-1); }
 }
 
 /* src/assets/css/Loader.css */
+.loading-text {
+    margin-top: 500px;
+    margin-left: -350px;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+}
