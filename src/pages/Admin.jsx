@@ -32,8 +32,8 @@ const Form = () => {
     const [fontSizeParagraph, setFontSizeParagraph] = useState(16);
     const [fontSizeTitle, setFontSizeTitle] = useState(24);
     const [fontSizeSubtitle, setFontSizeSubtitle] = useState(20);
-    const [primaryFont, setPrimaryFont] = useState(null);
-    const [secondaryFont, setSecondaryFont] = useState(null);
+    const [fontFamily, setFontFamily] = useState('Roboto, sans-serif'); // Fuente por defecto
+    const [fontFile, setFontFile] = useState(null); // Estado para el archivo de fuente
     
     // Estado para las paletas, inicializando con una paleta específica
     const [palettes, setPalettes] = useState([
@@ -621,6 +621,70 @@ const Form = () => {
         });
     };
 
+    const handleFontFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (fileExtension === 'ttf') {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const fontUrl = event.target.result;
+                    const newFont = new FontFace('CustomFont', `url(${fontUrl})`);
+                    newFont.load().then(() => {
+                        document.fonts.add(newFont);
+                        setFontFamily('CustomFont, sans-serif'); // Cambia a la nueva fuente
+                        
+                        // Cambiar la fuente de los textos grandes
+                        document.querySelectorAll('.text-grande, .admin-area-title, h3, h4').forEach(title => {
+                            title.style.fontFamily = 'CustomFont, sans-serif'; // Aplica la nueva fuente
+                        });
+                    }).catch((error) => {
+                        console.error('Error loading font:', error);
+                    });
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Por favor, sube un archivo TTF válido.');
+            }
+        }
+    };
+
+    const handleSecondaryFontFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            if (fileExtension === 'ttf') {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const fontUrl = event.target.result;
+                    const newFont = new FontFace('SecondaryFont', `url(${fontUrl})`);
+                    newFont.load().then(() => {
+                        document.fonts.add(newFont);
+                        setSecondaryFont('SecondaryFont, sans-serif'); // Cambia a la nueva fuente secundaria
+                        
+                        // Cambiar la fuente de los textos secundarios
+                        document.querySelectorAll('body *:not(.text-grande):not(.admin-area-title):not(h3):not(h4)').forEach(text => {
+                            text.style.fontFamily = 'SecondaryFont, sans-serif'; // Aplica la nueva fuente secundaria
+                        });
+                    }).catch((error) => {
+                        console.error('Error loading secondary font:', error);
+                    });
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Por favor, sube un archivo TTF válido.');
+            }
+        }
+    };
+
+    const handleFontSizeChange = (value) => {
+        setFontSizeParagraph(value);
+        // Cambiar el tamaño de fuente de todos los textos (excluyendo textos grandes)
+        document.querySelectorAll('body *:not(.text-grande):not(.admin-area-title):not(h3):not(h4)').forEach(text => {
+            text.style.fontSize = `${value}px`; // Aplica el tamaño de fuente del párrafo
+        });
+    };
+
     useEffect(() => {
         // Verificar si el mapa ya ha sido inicializado
         if (mapRef.current) return;
@@ -722,8 +786,7 @@ const Form = () => {
         setFontSizeParagraph(16);
         setFontSizeTitle(24);
         setFontSizeSubtitle(20);
-        setPrimaryFont(null);
-        setSecondaryFont(null);
+        setFontFamily('Roboto, sans-serif'); // Resetear la fuente por defecto
     };
 
     const handleChangeBackgroundColor = () => {
@@ -1084,11 +1147,11 @@ const Form = () => {
                                 <input type="color" value={additionalColor2} onChange={(e) => setAdditionalColor2(e.target.value)} />
                             </div>
                             <div style={{ marginBottom: '20px' }}>
-                                <label>Tamaño de Fuente (Párrafos):</label>
+                                <label>Tamaño de Fuente (Párrafo):</label>
                                 <input 
                                     type="number" 
                                     value={fontSizeParagraph} 
-                                    onChange={(e) => handleChangeFontSizeParagraph(e.target.value)} 
+                                    onChange={(e) => handleFontSizeChange(e.target.value)}
                                 />
                             </div>
                             <div style={{ marginBottom: '20px' }}>
@@ -1096,12 +1159,8 @@ const Form = () => {
                                 <input type="number" value={fontSizeTitle} onChange={(e) => handleChangeFontSizeTitle(e.target.value)} />
                             </div>
                             <div style={{ marginBottom: '20px' }}>
-                                <label>Tamaño de Fuente (Subtítulos):</label>
-                                <input type="number" value={fontSizeSubtitle} onChange={(e) => setFontSizeSubtitle(e.target.value)} />
-                            </div>
-                            <div style={{ marginBottom: '20px' }}>
                                 <label>Cargar Tipografía Principal:</label>
-                                <input type="file" onChange={(e) => setPrimaryFont(e.target.files[0])} />
+                                <input type="file" accept=".ttf" onChange={handleFontFileChange} />
                                 <button 
                                     onClick={(e) => { 
                                         e.preventDefault(); 
@@ -1122,7 +1181,7 @@ const Form = () => {
                             </div>
                             <div style={{ marginBottom: '20px' }}>
                                 <label>Cargar Tipografía Secundaria:</label>
-                                <input type="file" onChange={(e) => setSecondaryFont(e.target.files[0])} />
+                                <input type="file" accept=".ttf" onChange={handleSecondaryFontFileChange} />
                                 <button 
                                     onClick={(e) => { 
                                         e.preventDefault(); 
@@ -1173,11 +1232,9 @@ const Form = () => {
                                     backgroundColor: '#fff',
                                     transition: 'all 0.3s ease'
                                 }}>
-                                    <div style={{ color: primaryColor, fontSize: `${fontSizeTitle}px` }} className="preview-title">Título de Ejemplo</div>
-                                    <div style={{ color: secondaryColor, fontSize: `${fontSizeSubtitle}px` }} className="preview-subtitle">Subtítulo de Ejemplo</div>
-                                    <p style={{ color: accentColor, fontSize: `${fontSizeParagraph}px` }}>Este es un párrafo de ejemplo con el tamaño de fuente y color seleccionados.</p>
-                                    <p style={{ color: additionalColor1 }}>Texto con Color Adicional 1</p>
-                                    <p style={{ color: additionalColor2 }}>Texto con Color Adicional 2</p>
+                                    <div style={{ fontSize: `${fontSizeTitle}px`, fontFamily: fontFamily }} className="preview-title">Título de Ejemplo</div>
+                                    <div style={{ fontSize: `${fontSizeSubtitle}px`, fontFamily: fontFamily }} className="preview-subtitle">Subtítulo de Ejemplo</div>
+                                    <p style={{ fontSize: `${fontSizeParagraph}px` }}>Este es un párrafo de ejemplo con el tamaño de fuente y color seleccionados.</p>
                                 </div>
                             </div>
                             <div style={{ marginTop: '20px' }}>

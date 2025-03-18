@@ -11,85 +11,129 @@
     width: 300px;
     height: 300px;
     left: 50px;
+    animation: moveFigures 5s forwards 1s;
+}
+
+
+
+.triangle-1, .triangle-2, .triangle-3, .triangle-4, .triangle-5, .square, .parallelogram {
+    position: absolute;
+    transition: all 5s;
 }
 
 .triangle-1 {
-    position: absolute; /* Asegúrate de que esté posicionado correctamente */
-    top: 150px; /* Ajusta la posición según sea necesario */
-    left: 50.5px; /* Ajusta la posición según sea necesario */
-    width: 100px; /* Ancho del triángulo */
-    height: 100px; /* Altura del triángulo */
-    background-color: #009EA6; /* Fondo transparente */
+    width: 100px;
+    height: 100px;
+    background-color: #009EA6;
     clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
-    transform: rotate(0deg);
+    top: 150px;
+    left: -64px;
+    transform: rotate(180deg);
+    animation: moveTriangle1 5s forwards 1s;
 }
 
 .triangle-2 {
-    position: absolute;
-    top: 100px;
-    left: 100px;
-    width: 0;
-    height: 0;
+    width: 100px;
+    height: 100px;
     border-left: 0px solid transparent;
     border-right: 100px solid transparent;
     border-bottom: 100px solid #EB4726;
     clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
-    transform: rotate(270deg);
-}
 
-/* src/assets/css/Loader.css */
-.triangle-3 {
-    position: absolute; /* Asegúrate de que esté posicionado correctamente */
-    top: 100px; /* Ajusta la posición según sea necesario */
-    left: 0px; /* Ajusta la posición según sea necesario */
-    width: 200px; /* Ancho del triángulo */
-    height: 200px; /* Altura del triángulo */
-    background-color: #0F82F2; /* Fondo transparente */
-    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    top: 200px;
+    left: 168px;
     transform: rotate(180deg);
-}
-.triangle-4 {
-    position: absolute; /* Asegúrate de que esté posicionado correctamente */
-    top: 100px; /* Ajusta la posición según sea necesario */
-    left: 0px; /* Ajusta la posición según sea necesario */
-    width: 200px; /* Ancho del triángulo */
-    height: 200px; /* Altura del triángulo */
-    background-color: #CD0E66; /* Fondo transparente */
-    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
-    transform: rotate(90deg);
-}
-.triangle-5 {
-    position: absolute; /* Asegúrate de que esté posicionado correctamente */
-    top: 230px; /* Ajusta la posición según sea necesario */
-    left: 130px; /* Ajusta la posición según sea necesario */
-    width:140px; /* Ancho del triángulo */
-    height: 140px; /* Altura del triángulo */
-    background-color: #6D3BBF; /* Fondo transparente */
-    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
-    transform: rotate(135deg);
+    animation: moveTriangle2 5s forwards 1s;
 }
 
+.triangle-3 {
+    width: 200px;
+    height: 200px;
+    background-color: #0F82F2;
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    top: 150px;
+    left: -23px;
+    transform: rotate(225deg);
+    animation: moveTriangle3 5s forwards 1s;
+}
+
+.triangle-4 {
+    width: 200px;
+    height: 200px;
+    background-color: #CD0E66;
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    top: 150px;
+    left: -23px;
+    transform: rotate(135deg);
+    animation: moveTriangle4 5s forwards 1s;
+}
+
+.triangle-5 {
+    width: 140px;
+    height: 140px;
+    background-color: #6D3BBF;
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    top: 250px;
+    left: 6px;
+    transform: rotate(180deg);
+    animation: moveTriangle5 5s forwards 1s;
+}
 
 .square {
-    position: absolute;
-    top: 164.5px;
-    left: 115px;
     width: 71px;
     height: 71px;
     background-color: #22AB24;
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    top: 164.5px;
+    left: -99px;
     transform: rotate(45deg);
+    animation: moveSquare 5s forwards 1s;
 }
 
-
 .parallelogram {
-    position: absolute;
-    top: 150px;
-    left: 0.5px;
     width: 150px;
-    height:150px;
+    height: 150px;
     background-color: #FD8C00;
     clip-path: polygon(33% 67%, 100% 67%, 67% 100%, 0% 100%);
+    top: 50px;
+    left: 119px;
+    transform: scaleX(-1);
+    animation: moveParallelogram 5s forwards 1s;
+}
+
+@keyframes moveTriangle1 {
+    0% { transform: translateX(0) translateY(0) rotate(180deg) ; }
+    100% { transform: translateX(50px) translateY(-30px) rotate(90deg) ; }
+}
+
+@keyframes moveTriangle2 {
+    0% { transform: translateX(0) translateY(0) rotate(180deg); }
+    100% { transform: translateX(-247px) translateY(83px) rotate(180deg); }
+}
+
+@keyframes moveTriangle3 {
+    0% { transform: translateX(0) translateY(0) rotate(225deg); }
+    100% { transform: translateX(-1px) translateY(-150px) rotate(315deg); }
+}
+
+@keyframes moveTriangle4 {
+    0% { transform: translateX(0) translateY(0) rotate(135deg); }
+    100% { transform: translateX(-1px) translateY(-150px) rotate(45deg); }
+}
+
+@keyframes moveTriangle5 {
+    0% { transform: translateX(0) translateY(0) rotate(180deg); }
+    100% { transform: translateX(-55px) translateY(-37px) rotate(135deg); }
+}
+
+@keyframes moveSquare {
+    0% { transform: translateX(0) translateY(0) rotate(45deg); }
+    100% { transform: translateX(233px) translateY(100px) rotate(45deg); }
+}
+
+@keyframes moveParallelogram {
+    0% { transform: translateX(0) translateY(0) scaleX(-1); }
+    100% { transform: translateX(0px) translateY(99px) rotate(90deg) scaleX(-1); }
 }
 
 /* src/assets/css/Loader.css */
