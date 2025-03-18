@@ -1839,52 +1839,6 @@ pre code {
   z-index: 1000;
 }
 
-.tangram {
-  position: relative;
-  width: 100px;
-  height: 100px;
-}
-
-.tangram-piece {
-  position: absolute;
-  background-color: #3498db;
-  transition: all 0.5s ease;
-}
-
-.tangram-piece:nth-child(1) {
-  clip-path: polygon(0 0, 100% 0, 50% 50%);
-  width: 50%;
-  height: 50%;
-  top: 0;
-  left: 0;
-}
-
-.tangram-piece:nth-child(2) {
-  clip-path: polygon(0 0, 100% 0, 50% 50%);
-  width: 50%;
-  height: 50%;
-  top: 0;
-  right: 0;
-  background-color: #e74c3c;
-}
-
-.tangram-piece:nth-child(3) {
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
-  width: 50%;
-  height: 50%;
-  bottom: 0;
-  left: 0;
-  background-color: #f1c40f;
-}
-
-.tangram-piece:nth-child(4) {
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
-  width: 50%;
-  height: 50%;
-  bottom: 0;
-  right: 0;
-  background-color: #2ecc71;
-}
 
 .custom-bg2{
     background-color: #e8e6e6;

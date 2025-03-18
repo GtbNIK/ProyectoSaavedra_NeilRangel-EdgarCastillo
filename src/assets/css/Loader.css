@@ -1,0 +1,95 @@
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.tangram {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    left: 50px;
+}
+
+.triangle-1 {
+    position: absolute; /* Asegúrate de que esté posicionado correctamente */
+    top: 150px; /* Ajusta la posición según sea necesario */
+    left: 50.5px; /* Ajusta la posición según sea necesario */
+    width: 100px; /* Ancho del triángulo */
+    height: 100px; /* Altura del triángulo */
+    background-color: #009EA6; /* Fondo transparente */
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    transform: rotate(0deg);
+}
+
+.triangle-2 {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    width: 0;
+    height: 0;
+    border-left: 0px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 100px solid #EB4726;
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    transform: rotate(270deg);
+}
+
+/* src/assets/css/Loader.css */
+.triangle-3 {
+    position: absolute; /* Asegúrate de que esté posicionado correctamente */
+    top: 100px; /* Ajusta la posición según sea necesario */
+    left: 0px; /* Ajusta la posición según sea necesario */
+    width: 200px; /* Ancho del triángulo */
+    height: 200px; /* Altura del triángulo */
+    background-color: #0F82F2; /* Fondo transparente */
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    transform: rotate(180deg);
+}
+.triangle-4 {
+    position: absolute; /* Asegúrate de que esté posicionado correctamente */
+    top: 100px; /* Ajusta la posición según sea necesario */
+    left: 0px; /* Ajusta la posición según sea necesario */
+    width: 200px; /* Ancho del triángulo */
+    height: 200px; /* Altura del triángulo */
+    background-color: #CD0E66; /* Fondo transparente */
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    transform: rotate(90deg);
+}
+.triangle-5 {
+    position: absolute; /* Asegúrate de que esté posicionado correctamente */
+    top: 230px; /* Ajusta la posición según sea necesario */
+    left: 130px; /* Ajusta la posición según sea necesario */
+    width:140px; /* Ancho del triángulo */
+    height: 140px; /* Altura del triángulo */
+    background-color: #6D3BBF; /* Fondo transparente */
+    clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    transform: rotate(135deg);
+}
+
+
+.square {
+    position: absolute;
+    top: 164.5px;
+    left: 115px;
+    width: 71px;
+    height: 71px;
+    background-color: #22AB24;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transform: rotate(45deg);
+}
+
+
+.parallelogram {
+    position: absolute;
+    top: 150px;
+    left: 0.5px;
+    width: 150px;
+    height:150px;
+    background-color: #FD8C00;
+    clip-path: polygon(33% 67%, 100% 67%, 67% 100%, 0% 100%);
+}
+
+/* src/assets/css/Loader.css */

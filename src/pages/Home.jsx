@@ -20,7 +20,7 @@ const Home = () => {
       // Simular una carga de datos
       const timer = setTimeout(() => {
           setLoading(false);
-      }, 15000); // Duración de 15 segundos
+      }, 150000); // Duración de 15 segundos
 
       return () => clearTimeout(timer);
   }, []);
