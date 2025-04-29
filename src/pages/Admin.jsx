@@ -716,6 +716,35 @@ const Form = () => {
             locationInfo.textContent = `Ciudad: ${city}, Estado: ${state}, País: ${country}`;
         }).addTo(mapRef.current);
 
+        // Evento para obtener la ubicación al mover el mapa
+mapRef.current.on('moveend', function() {
+    const center = mapRef.current.getCenter(); // Obtener el centro del mapa
+    const lat = center.lat;
+    const lng = center.lng;
+
+    // Llamada a Nominatim para geocodificación inversa
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+        .then(res => res.json())
+        .then(data => {
+            const address = data.address || {};
+            const city = address.city || address.town || address.village || address.hamlet || '';
+            const state = address.state || '';
+            const country = address.country || '';
+
+            // Rellenar los campos del formulario
+            document.getElementById('city').value = city;
+            document.getElementById('state').value = state;
+            document.getElementById('country').value = country;
+
+            // Actualizar el div de información
+            const locationInfo = document.getElementById('location-info');
+            locationInfo.textContent = `Ciudad: ${city || '-'}, Estado: ${state || '-'}, País: ${country || '-'}`;
+        })
+        .catch(error => {
+            console.error('Error al obtener la ubicación:', error);
+        });
+});
+
         // Funciones para agregar entradas
         window.addWorkExperience = addWorkExperience;
         window.addLanguage = addLanguage;
