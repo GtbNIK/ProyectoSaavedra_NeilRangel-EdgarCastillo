@@ -1,3 +1,11 @@
+:root {
+    --primary-color: #009EA6; /* Color principal */
+    --secondary-color: #0F82F2; /* Color secundario */
+    --accent-color: #6D3BBF; /* Color de acento */
+    --additional-color-1: #22AB24; /* Color adicional 1 */
+    --additional-color-2: #FD8C00; /* Color adicional 2 */
+}
+
 .loader-container {
     display: flex;
     justify-content: center;
@@ -14,8 +22,6 @@
     animation: moveFigures 15s forwards 1s;
 }
 
-
-
 .triangle-1, .triangle-2, .triangle-3, .triangle-4, .triangle-5, .square, .parallelogram {
     position: absolute;
     transition: all 15s;
@@ -24,7 +30,7 @@
 .triangle-1 {
     width: 100px;
     height: 100px;
-    background-color: #009EA6;
+    background-color: var(--primary-color);
     clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
     top: 150px;
     left: -64px;
@@ -35,11 +41,8 @@
 .triangle-2 {
     width: 100px;
     height: 100px;
-    border-left: 0px solid transparent;
-    border-right: 100px solid transparent;
-    border-bottom: 100px solid #EB4726;
+    background-color: var(--primary-color);
     clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
-
     top: 200px;
     left: 168px;
     transform: rotate(180deg);
@@ -49,7 +52,7 @@
 .triangle-3 {
     width: 200px;
     height: 200px;
-    background-color: #0F82F2;
+    background-color: var(--secondary-color);
     clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
     top: 150px;
     left: -23px;
@@ -60,7 +63,7 @@
 .triangle-4 {
     width: 200px;
     height: 200px;
-    background-color: #CD0E66;
+    background-color: var(--secondary-color);
     clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
     top: 150px;
     left: -23px;
@@ -71,7 +74,7 @@
 .triangle-5 {
     width: 140px;
     height: 140px;
-    background-color: #6D3BBF;
+    background-color: var(--accent-color);
     clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
     top: 250px;
     left: 6px;
@@ -82,7 +85,7 @@
 .square {
     width: 71px;
     height: 71px;
-    background-color: #22AB24;
+    background-color: var(--additional-color-1);
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     top: 164.1px;
     left: -99.5px;
@@ -93,13 +96,15 @@
 .parallelogram {
     width: 150px;
     height: 150px;
-    background-color: #FD8C00;
+    background-color: var(--additional-color-2);
     clip-path: polygon(33% 67%, 100% 67%, 67% 100%, 0% 100%);
     top: 50px;
     left: 119px;
     transform: scaleX(-1);
     animation: moveParallelogram 15s forwards 1s;
 }
+
+/* Resto de las animaciones y estilos... */
 
 @keyframes moveTriangle1 {
     0% { transform: translateX(0) translateY(0) rotate(180deg) ; }

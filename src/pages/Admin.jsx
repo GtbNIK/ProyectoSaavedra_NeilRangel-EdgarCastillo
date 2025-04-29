@@ -43,9 +43,36 @@ const Form = () => {
             accentColor: '#FF4800',
             additionalColor1: '#000000',
             additionalColor2: '#E8E6E6',
+        },
+        {
+            primaryColor: '#F0F0F0', // Color principal
+            secondaryColor: '#2C3E50', // Color secundario
+            accentColor: '#E74C3C', // Color de acento
+            additionalColor1: '#3498DB', // Color adicional 1
+            additionalColor2: '#ECF0F1', // Color adicional 2
         }
     ]);
     const [currentPalette, setCurrentPalette] = useState(null);
+
+    useEffect(() => {
+        const savedPrimaryColor = localStorage.getItem('primaryColor') || '#FFFFFF';
+        const savedSecondaryColor = localStorage.getItem('secondaryColor') || '#1F3142';
+        const savedAccentColor = localStorage.getItem('accentColor') || '#FF4800';
+        const savedAdditionalColor1 = localStorage.getItem('additionalColor1') || '#000000';
+        const savedAdditionalColor2 = localStorage.getItem('additionalColor2') || '#E8E6E6';
+
+        setPrimaryColor(savedPrimaryColor);
+        setSecondaryColor(savedSecondaryColor);
+        setAccentColor(savedAccentColor);
+        setAdditionalColor1(savedAdditionalColor1);
+        setAdditionalColor2(savedAdditionalColor2);
+
+        document.documentElement.style.setProperty('--primary-color', savedPrimaryColor);
+        document.documentElement.style.setProperty('--secondary-color', savedSecondaryColor);
+        document.documentElement.style.setProperty('--accent-color', savedAccentColor);
+        document.documentElement.style.setProperty('--additional-color-1', savedAdditionalColor1);
+        document.documentElement.style.setProperty('--additional-color-2', savedAdditionalColor2);
+    }, []);
 
     const addWorkExperience = () => {
         setWorkExperience([...workExperience, { startYear: '', endYear: '', title: '', description: '' }]);
@@ -745,6 +772,8 @@ mapRef.current.on('moveend', function() {
         });
 });
 
+
+
         // Funciones para agregar entradas
         window.addWorkExperience = addWorkExperience;
         window.addLanguage = addLanguage;
@@ -819,16 +848,32 @@ mapRef.current.on('moveend', function() {
     };
 
     const handleChangeBackgroundColor = () => {
-        document.body.style.backgroundColor = primaryColor; // Cambiar el color de fondo al color primario
-        // Cambiar el color de fondo del TopBar y Footer solo si se hace clic en el botón
+        // Cambiar el color de fondo al color primario
+        document.body.style.backgroundColor = primaryColor;
+    
+        // Cambiar el color de fondo del TopBar y Footer
         document.querySelector('.top-bar').style.backgroundColor = secondaryColor;
         document.querySelector('.footer').style.backgroundColor = secondaryColor;
-
+    
         // Cambiar el color de fondo de los componentes que usan la clase custom-bg2
         const customBgElements = document.querySelectorAll('.custom-bg2');
         customBgElements.forEach(element => {
-            element.style.backgroundColor = additionalColor2; // Aplicar el color secundario 2
+            element.style.backgroundColor = additionalColor2;
         });
+    
+        // Actualizar las variables CSS para el tangram
+        document.documentElement.style.setProperty('--primary-color', primaryColor);
+        document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+        document.documentElement.style.setProperty('--accent-color', accentColor);
+        document.documentElement.style.setProperty('--additional-color-1', additionalColor1);
+        document.documentElement.style.setProperty('--additional-color-2', additionalColor2);
+    
+        // Guardar los colores en el localStorage
+        localStorage.setItem('primaryColor', primaryColor);
+        localStorage.setItem('secondaryColor', secondaryColor);
+        localStorage.setItem('accentColor', accentColor);
+        localStorage.setItem('additionalColor1', additionalColor1);
+        localStorage.setItem('additionalColor2', additionalColor2);
     };
 
     const handleChangeFontSizeTitle = (size) => {
@@ -1267,18 +1312,38 @@ mapRef.current.on('moveend', function() {
                                 </div>
                             </div>
                             <div style={{ marginTop: '20px' }}>
-                                <h4>Paletas de Colores</h4>
-                                {palettes.map((palette, index) => (
-                                    <div key={index} style={{ marginBottom: '10px' }}>
-                                        <span>Paleta {index + 1}:</span>
-                                        <input type="color" value={palette.primaryColor} readOnly style={{ marginLeft: '10px', marginRight: '5px' }} />
-                                        <input type="color" value={palette.secondaryColor} readOnly style={{ marginRight: '5px' }} />
-                                        <input type="color" value={palette.accentColor} readOnly style={{ marginRight: '5px' }} />
-                                        <input type="color" value={palette.additionalColor1} readOnly style={{ marginRight: '5px' }} />
-                                        <input type="color" value={palette.additionalColor2} readOnly style={{ marginRight: '5px' }} />
-                                    </div>
-                                ))}
-                            </div>
+    <h4>Paletas de Colores</h4>
+    {palettes.map((palette, index) => (
+        <div key={index} style={{ marginBottom: '10px', display: 'flex', alignItems: 'center' }}>
+            <span>Paleta {index + 1}:</span>
+            <input type="color" value={palette.primaryColor} readOnly style={{ marginLeft: '10px', marginRight: '5px' }} />
+            <input type="color" value={palette.secondaryColor} readOnly style={{ marginRight: '5px' }} />
+            <input type="color" value={palette.accentColor} readOnly style={{ marginRight: '5px' }} />
+            <input type="color" value={palette.additionalColor1} readOnly style={{ marginRight: '5px' }} />
+            <input type="color" value={palette.additionalColor2} readOnly style={{ marginRight: '5px' }} />
+            <button 
+                onClick={() => {
+                    setPrimaryColor(palette.primaryColor);
+                    setSecondaryColor(palette.secondaryColor);
+                    setAccentColor(palette.accentColor);
+                    setAdditionalColor1(palette.additionalColor1);
+                    setAdditionalColor2(palette.additionalColor2);
+                }}
+                style={{ 
+                    marginLeft: '10px', 
+                    backgroundColor: '#28a745', 
+                    color: 'white', 
+                    border: 'none', 
+                    padding: '5px 10px', 
+                    borderRadius: '5px', 
+                    cursor: 'pointer' 
+                }}
+            >
+                Usar Paleta
+            </button>
+        </div>
+    ))}
+</div>
                         </div>
                     )}
                 </div>
